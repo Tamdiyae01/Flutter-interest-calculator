@@ -4,7 +4,7 @@ import 'package:vibration/vibration.dart';
 import 'dart:math';
 
 void main() => runApp(MaterialApp(
-  home: Home(),
+home: Home(),
 ));
 
 class Home extends StatefulWidget {
@@ -14,6 +14,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+
   int dropdownValue = 3;
   double _sliderValue = 8.0;
   int endValue;
@@ -22,11 +23,13 @@ class _HomeState extends State<Home> {
   TextEditingController amount =  new TextEditingController();
   var amounttempFinal;
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(backgroundColor:  Color.fromRGBO(0, 10, 238, 1),
-      elevation: 0,
+        elevation: 0,
       ),
       drawer:Drawer(
         child: ListView(
@@ -52,10 +55,10 @@ class _HomeState extends State<Home> {
             ),
             ListTile(
               title: Text('Interest Calculator',
-              style: TextStyle(
-                fontFamily: 'Titillium',
-                color: Colors.black,
-              ),),
+                style: TextStyle(
+                  fontFamily: 'Titillium',
+                  color: Colors.black,
+                ),),
               onTap: () {
                 // Update the state of the app
                 // ...
@@ -65,19 +68,27 @@ class _HomeState extends State<Home> {
             ),
             Divider(height: 2, color: Colors.black54,),
             ListTile(
-
               title: Text('Mortage Calculator',
-              style: TextStyle(
-                fontFamily: 'Titillium'
-              ),),
+                style: TextStyle(
+                    fontFamily: 'Titillium'
+                ),),
               onTap: () {
                 // Update the state of the app
                 // ...
                 // Then close the drawer
                 Navigator.push(
                     context,
-                MaterialPageRoute(builder: (context) => MortageCalc()));
+                    MaterialPageRoute(builder: (context) => MortageCalc()));
               },
+            ),
+            Divider(height: 2, color: Colors.black54,),
+            ListTile(
+              title: Text(
+                'Stocks',
+                style: TextStyle(
+                    fontFamily: 'Titillium'
+                ),
+              ),
             ),
             Divider(height: 2, color: Colors.black54,),
           ],
@@ -89,7 +100,7 @@ class _HomeState extends State<Home> {
         painter: BluePainter(),
         child: Container(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(25, 70, 25, 0),
+            padding: const EdgeInsets.fromLTRB(25, 50, 25, 0),
             child: Column(
               children: <Widget>[
 
@@ -98,39 +109,47 @@ class _HomeState extends State<Home> {
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'Titillium',
+                    fontSize: 20
                   ),
                 ),
-                Text(
-                  '\$ ${endValue == null ? "---": "$endValue"}',
-                  style: TextStyle(
-                    fontSize: 80,
-                    color: Colors.white,
-                    fontFamily: 'Titillium',
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                  child:   Text(
+                    '\$ ${endValue == null ? "---": "$endValue"}',
+                    style: TextStyle(
+                      fontSize: 80,
+                      color: Colors.white,
+                      fontFamily: 'Titillium',
+                    ),
                   ),
                 ),
+
                 SizedBox(
                   height: 20,
                 ),
-                RaisedButton(
-                  padding: EdgeInsets.fromLTRB(22, 9, 22, 9),
-                  color: Color.fromRGBO(65, 200, 235, 1),
-                  onPressed: () {
-                    var amountFinal = double.parse(amount.text);
-                    if((amountFinal != null)&& (_sliderValue != null)&&( dropdownValue != null)) {
-                      _sliderValue = (_sliderValue /100) + 1;
-                      setState(() {
-                        double temp1 = amountFinal * pow(_sliderValue, dropdownValue);
-                        endValue = temp1.toInt();
-                      });
-                    } //todo ADD ELSE IF
-                  },
-                  child: Text(
-                    'Calculate',
-                    style: TextStyle(
-                      color: Color.fromRGBO(214, 243, 250, 1),
-                      fontSize: 17,
-                      fontFamily: 'Titillium',
-                      fontWeight: FontWeight.w700,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+                  child: RaisedButton(
+                    padding: EdgeInsets.fromLTRB(22, 9, 22, 9),
+                    color: Color.fromRGBO(65, 200, 235, 1),
+                    onPressed: () {
+                      var amountFinal = double.parse(amount.text);
+                      if((amountFinal != null)&& (_sliderValue != null)&&( dropdownValue != null)) {
+                        _sliderValue = (_sliderValue /100) + 1;
+                        setState(() {
+                          double temp1 = amountFinal * pow(_sliderValue, dropdownValue);
+                          endValue = temp1.toInt();
+                        });
+                      } //todo ADD ELSE IF
+                    },
+                    child: Text(
+                      'Calculate',
+                      style: TextStyle(
+                        color: Color.fromRGBO(214, 243, 250, 1),
+                        fontSize: 17,
+                        fontFamily: 'Titillium',
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                 ),
@@ -301,6 +320,14 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+  @override
+  void initState() {
+    // full screen width and height
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
+  }
 }
 
 class MortageCalc extends StatefulWidget {
@@ -312,9 +339,26 @@ class _MortageCalcState extends State<MortageCalc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color.fromRGBO(0, 10, 238, 1),
-        title: Text('Mortage Calculator'),
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            title: Text('Calculator'),
+            expandedHeight: 200,
+            floating: false,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.network('https://akm-img-a-in.tosshub.com/sites/btmt/images/stories/invest_660_051719073213.jpg'),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 1000,
+              child: Center(
+                child: Text('Content'),
+              ),
+            ),
+          )
+
+        ],
       ),
     );
   }
